@@ -194,6 +194,37 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+    
+    //I start by making copies of my collection so I can change the copy instead of the original
+    if(Array.isArray(collection)) {
+      var pseudoCollection = collection.slice();
+    }else {
+      var pseudoCollection = JSON.parse(JSON.stringify(collection));
+    }
+
+    //This piece of code checks if the accumulator was given. If not, it assignes the first
+    //element in the collection to the accumulator and deletes that elements from the
+    //'pseudo' collection. Grabbing the 'first' element in an object is tricky - I determined that
+    //the Object.keys() method would take the same order as the 'for... in' loop, so I could use
+    //that to find my first element and it wouldn't create any redundancy when I run the _.each
+    //function later with the same collection.
+    if(accumulator === undefined) {
+      if(Array.isArray(pseudoCollection)) {
+        accumulator = pseudoCollection.shift();
+      }else if(typeof collection === 'object') {
+        var firstElem = Object.keys(pseudoCollection)[0];
+        accumulator = collection[firstElem];
+        delete pseudoCollection[firstElem];
+      }else {
+        throw error;
+      }
+    }
+    
+    _.each(pseudoCollection, function(elem, index, collection) {
+        accumulator = iterator(accumulator, elem);
+    });
+
+    return accumulator;
   };
 
   // Determine if the array or object contains a given value (using `===`).
