@@ -85,11 +85,9 @@
   _.filter = function(collection, test) {
     
     var filteredArray = [];
-
-    /*
-    I'm not sure if distinguishing between arrays and objects is necessary as order
-    is not relevant when filtering. I did so just in case.
-     */
+    //I'm not sure if distinguishing between arrays and objects is necessary as order
+    //is not relevant when filtering. I did so just in case.
+    
 
     if(Array.isArray(collection)) {
       for(var i = 0, len = collection.length; i < len; i++) {
@@ -114,6 +112,14 @@
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+
+    //this logic takes each element one at a time and asks, "Does this element fail?" If it doesn't, it
+    //returns true which in turn tells the _.filter function to 'keep' the element.
+    return _.filter(collection, function(elem) {
+      if(!test(elem)) {
+        return true; 
+      }
+    });
   };
 
   // Produce a duplicate-free version of the array.
