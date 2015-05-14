@@ -124,6 +124,17 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var uniqArr = [];
+    
+    //Using 'each' allows us to iterate over our array and ask, "Is this element in our unique array?"
+    //If the element is not in our unique array, then we add it and continue the iteration.
+    _.each(array, function(elem) {
+      if(_.indexOf(uniqArr, elem) === -1) {
+        uniqArr.push(elem);
+      }
+    });
+
+    return uniqArr;
   };
 
 
