@@ -83,6 +83,31 @@
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
+    
+    var filteredArray = [];
+
+    /*
+    I'm not sure if distinguishing between arrays and objects is necessary as order
+    is not relevant when filtering. I did so just in case.
+     */
+
+    if(Array.isArray(collection)) {
+      for(var i = 0, len = collection.length; i < len; i++) {
+        if(test(collection[i])) {
+          filteredArray.push(collection[i]);
+        }
+      }
+    }else if(typeof collection === 'object') {
+      for(var val in collection) {
+        if(test(collection[val])) {
+          filteredArray.push(collection[val]);
+        }
+      }
+    }else {
+      throw error;
+    }
+
+    return filteredArray;
   };
 
   // Return all elements of an array that don't pass a truth test.
