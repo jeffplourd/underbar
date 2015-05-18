@@ -310,6 +310,15 @@
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+  for(var i = 1, len = arguments.length; i < len; i++) {
+    var objToAdd = arguments[i];
+    for(var val in objToAdd) {
+      if(obj[val] === undefined) {
+        obj[val] = objToAdd[val];
+      }
+    }
+  }
+  return obj;
   };
 
 
