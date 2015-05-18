@@ -362,6 +362,17 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var alreadyCalledObj = {};
+    //if argument is already in obj, then simply return the result of that function call
+    //if argument is not already in obj, then run the function, store the arg as key and return of
+    //the function as paired value, and then return the result.
+    return function(arg) {
+      if(alreadyCalledObj.hasOwnProperty(arg)) {
+        return alreadyCalledObj[arg];
+      }else {
+        return alreadyCalledObj[arg] = func.apply(this,arguments);
+      }
+    }
   };
 
   // Delays a function for the given number of milliseconds, and then calls
